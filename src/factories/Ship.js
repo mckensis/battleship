@@ -4,9 +4,10 @@ class Ship {
     #sunk;
     #hits;
 
-    constructor(length) {
+    constructor(length, type) {
         this.#hits = 0;
         this.#sunk = false;
+        this.type = type;
         // Length can be in range 2 - 5 
         this.length = length > 5 ? 5 : length < 2 ? 2 : length;
     }
@@ -34,6 +35,7 @@ class Ship {
 
     //Ship is sunk if number of hits matches length of ship
     isSunk() {
+        console.log(this.#hits);
         return this.#hits === this.length ? true : false;
     }
 }
