@@ -1,35 +1,29 @@
 import createGrid from "./createGrid";
 import Ship from "./Ship";
 
-
 class Gameboard {
-
-    #hits;
-    #misses;
-    #grid;
 
     constructor(player) {
         this.player = player;
-        this.#grid = createGrid();
+        this.grid = createGrid();
         //Gameboards should keep track of missed attacks so they can display them properly.
-        this.#misses = createGrid();
-        this.#hits = createGrid();
+        this.shots = createGrid();
         this.ships = this.#createBoats();
     };
 
     //Checks that there isn't already a boat on the chosen coordinates
     #checkOverlap(temp) {
-        for (let i = 0; i < this.#grid.length; i++) {
-            for (let j = 0; j < this.#grid[i].length; j++) {
+        for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[i].length; j++) {
                 if (temp[i][j] !== undefined) {
-                    if (this.#grid[i][j] !== undefined) {
+                    if (this.grid[i][j] !== undefined) {
                         return true;
                     }
                 }
             }
         }
         return false;
-    }
+    };
 
     //Creates the five boats for the game
     #createBoats() {
@@ -41,7 +35,7 @@ class Gameboard {
         const patrol = new Ship(2, 'patrol');
         boats.push(carrier, battleship, destroyer, submarine, patrol);
         return boats;
-    }
+    };
 
     //Helper function to create an array that will contain every grid space that the passed in boat will cover
     #createAllCoordinates(data) {
@@ -56,23 +50,26 @@ class Gameboard {
             temp[row][column] = type;
         }
         return temp;
-    }
+    };
 
     //Helper function to copy the temp array into the Gameboard's grid
     #copyTempIntoGrid(tempCoordinates) {
-        for (let i = 0; i < this.#grid.length; i++) {
-            for (let j = 0; j < this.#grid[i].length; j++) {
+        for (let i = 0; i < this.grid.length; i++) {
+            for (let j = 0; j < this.grid[i].length; j++) {
                 if (tempCoordinates[i][j]) {
-                    this.#grid[i][j] = tempCoordinates[i][j];
+                    this.grid[i][j] = tempCoordinates[i][j];
                 }
             }
         }
-        return this.#grid;
-    }
+        return this.grid;
+    };
 
     //Places the provided ship at the provided location 
     placeShip(data) {
         const boat = this.ships.find(element => element.type === data.type);
+        if (boat.placed) {
+            return;
+        }
         let column = data.column;
         let row = data.row;
         let tempCoordinates = this.#createAllCoordinates({ boat, row, column });
@@ -85,31 +82,30 @@ class Gameboard {
 
             //Place the new ship in the Gameboard's grid
             this.#copyTempIntoGrid(tempCoordinates);
+            boat.placed = true;
             return 'ship placed';
         }
-    }
+    };
 
-    //Gameboards should have a receiveAttack function that takes a pair of coordinates,
-    //determines whether or not the attack hit a ship and then sends the ‘hit’ function to the correct ship,
-    //or records the coordinates of the missed shot.
+    //Takes coordinates and determines if the attack is a 'hit' or a 'miss'
     receiveAttack(coordinates) {
         let row = coordinates.row;
         let column = coordinates.column;
 
-        if (!this.#grid[row][column]) {
-            this.#misses[row][column] = "miss";
+        if (!this.grid[row][column]) {
+            this.shots[row][column] = "miss";
             return 'miss';
         } else {
-            let attack = this.#grid[row][column];
+            let attack = this.grid[row][column];
             for (const ship of this.ships) {
                 if (ship.type === attack) {
                     ship.hit();
-                    this.#hits[row][column] = "hit";
+                    this.shots[row][column] = "hit";
                     return 'hit';
                 }
             }
         }
-    }
+    };
 
     //Report whether or not all of the gameboard's ships have been sunk.
     allSunk() {
@@ -119,7 +115,7 @@ class Gameboard {
             }
         }
         return true;
-    }
+    };
 }
 
 export default Gameboard;
