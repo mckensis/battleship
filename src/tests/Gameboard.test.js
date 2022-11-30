@@ -3,7 +3,7 @@ import Gameboard from "../factories/Gameboard";
 test('creating a board', () => {
     const board = new Gameboard('Aidan');
     expect(board.player).toEqual('Aidan');
-});
+})
 
 //Placing a ship on the board
 test('placing a ship', () => {
@@ -29,6 +29,7 @@ test('placing multiple ships', () => {
     expect(board.placeShip({ row: 2, column: 0, type: 'patrol' })).toEqual('ship placed');
 })
 
+//Receiving an attack that hits a ship will return 'hit'
 test('receive an attack on the board that hits', () => {
     const board = new Gameboard('Aidan');
 
@@ -37,6 +38,7 @@ test('receive an attack on the board that hits', () => {
     expect(board.receiveAttack({ row: 0, column: 1 })).toEqual('hit');
 })
 
+//Receiving an attack that misses will return 'miss'
 test('receive an attack on the board that misses', () => {
     const board = new Gameboard('Aidan');
 
@@ -45,6 +47,7 @@ test('receive an attack on the board that misses', () => {
     expect(board.receiveAttack({ row: 6, column: 4 })).toEqual('miss');
 })
 
+//Sinking all ships on the board returns true
 test('all ships sunk', () => {
     const board = new Gameboard('Aidan');
 
