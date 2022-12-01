@@ -2,11 +2,29 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <meta name="description" content="Battleship game written in Javascript">
         <title>Battleship</title>
     </head>
     <body>
-        <script src="bundle.js"></script>
+        <h1>BATTLESHIP</h1>
+        <section class="start">
+            <form class="playersForm">
+                <label for="playerOneName">
+                    <input type="text" placeholder="Player One" name="playerOneName" pattern="[a-zA-Z0-9]+" maxlength="10" autocomplete="off" required>
+                </label><p>vs.</p>
+                <label for="playerTwoName">
+                    <input type="text" class="playerTwoName" placeholder="Player Two" name="playerTwoName" pattern="[a-zA-Z0-9]+" maxlength="10" autocomplete="off" required>
+                </label>
+                <label for="cpuPlayer" class="options">
+                    <input type="checkbox" name="cpuPlayer" value="true">
+                    Play against CPU
+                </label>
+                </fieldset>
+                <button type="submit" class="startGameBtn">Start Game</button>
+            </form>
+        </section>
+        <section class="activePlayer"></section>
+        <script src="./bundle.js"></script>
     </body>
 </html>
