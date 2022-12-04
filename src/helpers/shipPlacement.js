@@ -1,53 +1,3 @@
-//Takes the ship coordinates form and formats it
-//To prepare for placing the ships
-function formatFormData(form) {
-    let ships = {
-        carrier: {
-            type: 'carrier',
-            direction: '',
-            coords: [],
-        },
-        battleship: {
-            type: 'battleship',
-            direction: '',
-            coords: [],
-        },
-        destroyer: {
-            type: 'destroyer',
-            direction: '',
-            coords: [],
-        },
-        submarine: {
-            type: 'submarine',
-            direction: '',
-            coords: [],
-        },
-        patrol: {
-            type: 'patrol',
-            direction: '',
-            coords: [],
-        }
-    }
-    
-    //Minus 1 from the input value to format for zero-indexed arrays
-    form.querySelectorAll('input').forEach(input => {
-        if (!input) {
-            return;
-        }
-        if (input.dataset.type) {
-            ships[input.dataset.type]["coords"].push(input.value -1);
-        }
-    });
-
-    let values = [];
-    
-    form.querySelectorAll('select').forEach(select => {
-        ships[select.dataset.type]['direction'] = select.value;
-    })
-
-    return ships;
-}
-
 //Places each of the player's ships into their own board
 function placeShips(ships, player) {
 
@@ -81,4 +31,4 @@ function shipPlacement(player, ships) {
     return 'All Ships Placed!';
 }
 
-export { formatFormData, shipPlacement };
+export default shipPlacement;

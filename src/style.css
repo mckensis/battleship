@@ -33,14 +33,17 @@ h1 {
     letter-spacing: 0.25rem;
     text-align: center;
 }
+h2 {
+    text-align: center;
+}
 
+/* The entire form section */
 .formContainer {
     display: grid;
     grid-auto-flow: row;
     place-items: center;
     grid-auto-rows: max-content;
 }
-
 form {
     display: grid;
     grid-template-rows: 1fr max-content max-content 1fr max-content;
@@ -48,7 +51,6 @@ form {
     width: 100%;
     max-width: 40rem;
 }
-
 form .playerName {
     place-self: center;
     font-size: 1.5rem;
@@ -57,14 +59,12 @@ form .playerName {
     grid-auto-flow: row;
     text-align: center;
 }
-
 .playerName input {
     margin-top: 0.5rem;
     font-size: 1.5rem;
     padding: 0.5rem 1rem;
     border-radius: 1rem;
 }
-
 .formDiv {
     display: grid;
     grid-template-columns: 1fr repeat(3, max-content) 1fr;
@@ -73,31 +73,16 @@ form .playerName {
     padding: 0rem 0.5rem;
     column-gap: 1rem;
 }
-
 .formDiv p {
     color: var(--babypowder);
     font-weight: bold;
     padding: 1rem 0rem;
 }
-
-.formDiv :nth-child(5) {
-    text-align: center;
-}
-
-h2,
-.formInputs input {
-    text-align: center;
-}
-
 .formInputs {
     display: grid;
     grid-auto-flow: row;
-}
-
-.formInputs {
     grid-column: 1 / -1;
 }
-
 .formInputs label {
     display: grid;
     font-size: 1.3rem;
@@ -108,15 +93,11 @@ h2,
     padding-bottom: 0.5rem;
     gap: 1rem;
 }
-
+.formInputs input,
 .formInputs select {
+    font-size: 1.2rem;
     text-align: center;
 }
-
-.formInputs input {
-    font-size: 1.3rem;
-}
-
 form button {
     display: grid;
     margin: auto;
@@ -130,6 +111,7 @@ form button {
     box-shadow: 0 0 0.25rem var(--dark);
     border-radius: 1rem;
 }
+/* Error message if ship can't be placed */
 .shipPlacementDisplay {
     margin: 1rem;
     font-size: 1.5rem;
@@ -138,6 +120,26 @@ form button {
     border: 2px dashed var(--brickred);
     border-radius: 1rem;
     padding: 1rem;
+}
+
+/* Section where game is played */
+.gameplay {
+    display: none;
+    grid-template-rows: 0.5fr 0.5fr;
+    gap: 0.5rem;
+    margin: 0.5rem;
+}
+
+.playerSection,
+.enemySection {
+    display: grid;
+    grid-template-rows: max-content 1fr;
+    place-items: center;
+}
+
+.playerSection.active,
+.enemySection.active {
+    border: 1px solid red;
 }
 
 /* Styles for all boards */
@@ -182,24 +184,4 @@ form button {
 .horizontalNumbers p,
 .verticalNumbers p {
     font-size: 1.3rem;
-}
-
-/* Enemy board section contains numbers and board */
-.gameplay {
-    display: none;
-    grid-template-rows: 0.5fr 0.5fr;
-    gap: 0.5rem;
-    margin: 0.5rem;
-}
-
-.playerSection,
-.enemySection {
-    display: grid;
-    grid-template-rows: max-content 1fr;
-    place-items: center;
-}
-
-.playerSection.active,
-.enemySection.active {
-    border: 1px solid red;
 }
