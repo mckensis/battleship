@@ -8,23 +8,130 @@
     </head>
     <body>
         <h1>BATTLESHIP</h1>
-        <section class="start">
-            <form class="playersForm">
-                <label for="playerOneName">
-                    <input type="text" placeholder="Player One" name="playerOneName" pattern="[a-zA-Z0-9]+" maxlength="10" autocomplete="off" required>
-                </label><p>vs.</p>
-                <label for="playerTwoName">
-                    <input type="text" class="playerTwoName" placeholder="Player Two" name="playerTwoName" pattern="[a-zA-Z0-9]+" maxlength="10" autocomplete="off" required>
+        <section class="formContainer">
+            <form class="playersForm" novalidate>
+                <label for="playerName" class="name">Input player name:
+                    <input type="text" placeholder="Name" class="playerName" name="playerName" pattern="[a-zA-Z0-9]+" maxlength="10" autocomplete="off" required>
                 </label>
-                <label for="cpuPlayer" class="options">
-                    <input type="checkbox" name="cpuPlayer" value="true">
-                    Play against CPU
-                </label>
-                </fieldset>
-                <button type="submit" class="startGameBtn">Start Game</button>
+                <h2>Plan your ship coordinates:</h2>
+                <div class="formGroup formHeadings">
+                    <p>Name</p>
+                    <p>Length</p>
+                    <p>Row</p>
+                    <p>Column</p>
+                    <p>Direction</p>
+                </div>
+                <div class="formGroup formInputs">
+                    <label for="carrierCoords">
+                        Carrier
+                        <span>5</span>
+                        <input type="number" data-type="carrier" name="carrierRow" min="1" max="10" value="1">
+                        <input type="number" data-type="carrier" name="carrierCol" min="1" max="6" value="1">
+                        <select data-type="carrier" >
+                            <option value="horizontal" data-direction="horizontal" selected>Horizontal</option>
+                            <option value="vertical" data-direction="vertical">Vertical</option>
+                        </select>
+                    </label>
+                    <label for="battleshipCoords">
+                        Battleship
+                        <span>4</span>
+                        <input type="number" data-type="battleship" name="battleshipRow" min="1" max="10" value="2">
+                        <input type="number" data-type="battleship" name="battleshipCol" min="1" max="7" value="1">
+                        <select data-type="battleship" >
+                            <option value="horizontal" data-direction="horizontal" selected>Horizontal</option>
+                            <option value="vertical" data-direction="vertical">Vertical</option>
+                        </select>
+                    </label>
+                    <label for="destroyerCoords">
+                        Destroyer
+                        <span>3</span>
+                        <input type="number" data-type="destroyer" name="destroyerRow" min="1" max="10" value="3">
+                        <input type="number" data-type="destroyer" name="destroyerCol" min="1" max="8" value="1">
+                        <select data-type="destroyer" >
+                            <option value="horizontal" data-direction="horizontal" selected>Horizontal</option>
+                            <option value="vertical" data-direction="vertical">Vertical</option>
+                        </select>
+                    </label>
+                    <label for="submarineCoords">
+                        Submarine
+                        <span>3</span>
+                        <input type="number" data-type="submarine" name="submarineRow" min="1" max="10" value="4">
+                        <input type="number" data-type="submarine" name="submarineCol" min="1" max="8" value="1">
+                        <select data-type="submarine" >
+                            <option value="horizontal" data-type="submarine" data-direction="horizontal" selected>Horizontal</option>
+                            <option value="vertical"  data-type="submarine" data-direction="vertical">Vertical</option>
+                        </select>
+                    </label>
+                    <label for="patrolBoatCoords">
+                        Patrol Boat
+                        <span>2</span>
+                        <input type="number" data-type="patrol" name="patrolBoatRow" min="1" max="10" value="5">
+                        <input type="number" data-type="patrol" name="patrolBoatCol" min="1" max="9" value="1">
+                        <select data-type="patrol">
+                            <option value="horizontal" data-direction="horizontal" selected>Horizontal</option>
+                            <option value="vertical" data-direction="vertical">Vertical</option>
+                        </select>
+                    </label>
+                </div>
+                <button type="submit" class="submitBtn">Start Game</button>
             </form>
         </section>
-        <section class="activePlayer"></section>
+        <section class="gameplay">
+            <div class="boardContainer player">
+                <div class="horizontalNumbers">
+                    <p>1</p>
+                    <p>2</p>
+                    <p>3</p>
+                    <p>4</p>
+                    <p>5</p>
+                    <p>6</p>
+                    <p>7</p>
+                    <p>8</p>
+                    <p>9</p>
+                    <p>10</p>
+                </div>
+                <div class="verticalNumbers">
+                    <p>1</p>
+                    <p>2</p>
+                    <p>3</p>
+                    <p>4</p>
+                    <p>5</p>
+                    <p>6</p>
+                    <p>7</p>
+                    <p>8</p>
+                    <p>9</p>
+                    <p>10</p>
+                </div>
+
+            </div>
+            <div class="boardContainer enemy">
+                <div class="horizontalNumbers">
+                    <p>1</p>
+                    <p>2</p>
+                    <p>3</p>
+                    <p>4</p>
+                    <p>5</p>
+                    <p>6</p>
+                    <p>7</p>
+                    <p>8</p>
+                    <p>9</p>
+                    <p>10</p>
+                </div>
+                <div class="verticalNumbers">
+                    <p>1</p>
+                    <p>2</p>
+                    <p>3</p>
+                    <p>4</p>
+                    <p>5</p>
+                    <p>6</p>
+                    <p>7</p>
+                    <p>8</p>
+                    <p>9</p>
+                    <p>10</p>
+                </div>
+
+            </div>
+        </section>
         <script src="./bundle.js"></script>
     </body>
 </html>

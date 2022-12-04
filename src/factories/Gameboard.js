@@ -40,13 +40,19 @@ class Gameboard {
     //Helper function to create an array that will contain every grid space that the passed in boat will cover
     #createAllCoordinates(data) {
         let temp = createGrid();
-
+        let row = data.row;
+        let column = data.column;
         //TO-DO: if orientation is vertical then increment row instead of column
         for (let boatGridLength = 0; boatGridLength < data.boat.length; boatGridLength++) {
-            let column = data.column + boatGridLength;
-            let row = data.row;
-            let type = data.boat.type;
+            if (data.direction === 'vertical') {   
+                row = data.row + boatGridLength;
+                column = column;
+            } else {
+                row = row;
+                column = data.column + boatGridLength;
+            }
             //Set the appropriate row & column to be the type of boat which will be placed there
+            let type = data.boat.type;
             temp[row][column] = type;
         }
         return temp;
@@ -66,26 +72,65 @@ class Gameboard {
 
     //Places the provided ship at the provided location 
     placeShip(data) {
+        
         const boat = this.ships.find(element => element.type === data.type);
         if (boat.placed) {
-            return;
+            return 'ship placed';
         }
         let column = data.column;
         let row = data.row;
-        let tempCoordinates = this.#createAllCoordinates({ boat, row, column });
+        let direction = data.direction;
+        let tempCoordinates = this.#createAllCoordinates({ boat, row, column, direction });
 
         if (tempCoordinates) {
             //Check that the new ship's whole position won't overlap any current ships on the grid
             if (this.#checkOverlap(tempCoordinates)) {
-                return null;
+                return 'ship not placed';
             }
-
             //Place the new ship in the Gameboard's grid
             this.#copyTempIntoGrid(tempCoordinates);
             boat.placed = true;
             return 'ship placed';
         }
     };
+
+    chooseRandomDirection() {
+        return Math.random() >= 0.5 ? 'horizontal' : 'vertical';
+    }
+
+    chooseRandomCoordinates() {
+        return Math.floor(Math.random() * 10);
+    }
+
+    placeShipRandom(data) {
+        const boat = this.ships.find(element => element.type === data.type);
+        let type = data.type;
+        let result = String;
+        let direction = this.chooseRandomDirection();
+        let row = this.chooseRandomCoordinates();
+        let column = this.chooseRandomCoordinates();
+
+        //Ensures the ship won't overflow the grid
+        if (direction === 'horizontal') {
+            while((boat.length + column) > 10) {
+                console.log(column);
+                column = this.chooseRandomCoordinates();
+            }
+        }
+        if (direction === 'vertical') {
+            while((boat.length + row) > 10) {
+                row = this.chooseRandomCoordinates();
+            }
+        }
+
+        result = this.placeShip({ row, column, type, direction });
+        if (result === 'ship not placed') {
+            this.placeShipRandom({ type, direction });
+        }
+        
+        result = 'ship placed';
+        return result;
+    }
 
     //Takes coordinates and determines if the attack is a 'hit' or a 'miss'
     receiveAttack(coordinates) {

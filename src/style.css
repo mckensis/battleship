@@ -11,29 +11,21 @@
     --darkpurple: #2D1E2F;
     --babypowder: #FFFDF7;
 }
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     color: var(--dark);
 }
-
-body {
-    height: 100vh;
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: 1fr;
-    grid-template-rows: max-content 1fr 1fr 1fr 1fr;
-    background: #70e1f5;
+html {
     background: var(--gradient);
+    background-attachment: fixed;
+}
+body {
+    display: grid;
+    grid-template-rows: max-content;
     font-family: sans-serif;
 }
-
-.start {
-    grid-row: -1;
-}
-
 h1 {
     font-family: "Stencil";
     padding-top: 1rem;
@@ -42,73 +34,154 @@ h1 {
     text-align: center;
 }
 
-.playersForm {
+/* Styles for all boards */
+.boardContainer {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    place-self: center;
+    align-self: stretch;
+    grid-template-rows: max-content 1fr;
+    grid-template-columns: max-content 1fr;
+}
+.verticalNumbers {
     display: grid;
     grid-auto-flow: row;
-    place-content: center;
+    grid-template-rows: repeat(10, 1fr);
     place-items: center;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(5, max-content);
-    row-gap: 1rem;
+    padding-right: 0.5rem;
+    grid-column: 1;
 }
-
-.playersForm input:not(input[type=checkbox]) {
-    padding: 0.5rem 2rem;
-    text-align: center;
-    border-radius: 1rem;
-    font-size: 1.4rem;
-    box-shadow: 0 0 0.25rem var(--dark);
-}
-
-.playersForm input:valid {
-    background-color: rgb(107, 170, 117, 0.8);
-}
-
-.playersForm input:invalid:not(:placeholder-shown) {
-    background-color: rgb(217, 89, 76, 0.8);
-}
-
-body {
-    color: rgb();
-}
-
-.playersForm > .options {
+.horizontalNumbers {
     display: grid;
-    place-items: center;
+    grid-column: 2;
     grid-auto-flow: column;
+    grid-template-columns: repeat(10, 1fr);
+    place-items: center;
+    padding-bottom: 0.5rem;
+}
+.board {
+    display: grid;
+    grid-row: 2;
+    grid-column: 2;
+    grid-template-rows: repeat(10, 1fr);
+    grid-template-columns: repeat(10, 1fr);
+    background-color: #fff;
+    border: 1px solid var(--dark);
+}
+.board > div {
+    aspect-ratio: 1;
+    border: 1px solid var(--dark);
+}
+.board > div:hover {
+    cursor: pointer;
+}
+.horizontalNumbers p,
+.verticalNumbers p {
+    font-size: 1.3rem;
+}
+
+.formContainer {
+    display: grid;
+    grid-auto-flow: row;
+    place-items: center;
+    grid-auto-rows: max-content;
+}
+
+.playersForm {
+    display: grid;
+    place-items: stretch;
+    grid-template-rows: max-content max-content 1fr max-content;
     gap: 1rem;
 }
 
-.playersForm > button {
-    margin: 0rem 1rem 1rem 1rem;
-    justify-self: stretch;
-    padding: 1rem;
-    border-radius: 1rem;
-    background-color: var(--darkpurple);
-    color: var(--babypowder);
+.playersForm .name {
+    place-self: center;
     font-size: 1.5rem;
+    display: grid;
     font-weight: bold;
-    border: 1px solid var(--dark);
-    box-shadow: 0 0 0.25rem var(--dark);
-    align-self: center;
+    grid-auto-flow: row;
+    text-align: center;
+}
+
+.playersForm .name input {
+    margin-top: 0.5rem;
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+}
+
+.formInputs {
+    display: grid;
+    grid-auto-flow: row;
+}
+
+.formInputs input {
+    text-align: center;
+}
+ 
+form h2 {
+    text-align: center;
+}
+
+.formHeadings {
+    display: grid;
+    grid-template-columns: 1fr repeat(4, max-content);
+    grid-auto-flow: column;
+    background-color: var(--darkpurple);
+    gap: 1rem;
+    padding: 0rem 1rem;
+}
+
+.formHeadings p {
+    color: var(--babypowder);
+    font-weight: bold;
+    padding: 1rem 0rem;
+}
+
+.formHeadings :nth-child(3),
+.formHeadings :nth-child(4) {
+    text-align: right;
+}
+
+.formInputs label {
+    display: grid;
+    grid-template-columns: 1fr 1rem repeat(2, 3rem) 6rem;
+    font-size: 1.4rem;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.formInputs input {
+    font-size: 1.4rem;
+}
+
+form button {
+    display: grid;
+    margin: auto;
     width: 25rem;
     max-width: 80%;
-    justify-self: center;
+    padding: 1rem;
+    color: var(--babypowder);
+    background-color: var(--darkpurple);
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 0 0.25rem var(--dark);
+    border-radius: 1rem;
 }
 
-.activePlayer {
-    width: 100%;
-    max-width: 20rem;
-    max-height: 20rem;
-    place-self: center;
+.shipPlacementDisplay {
+    margin: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+    background-color: rgb(209, 73, 91, 0.5);
+    border: 2px dashed var(--brickred);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+/* Enemy board section contains numbers and board */
+.gameplay {
     display: none;
-    align-self: stretch;
-    grid-row: 2 / span 2;
-    grid-template-rows: repeat(10, 1fr);
-    grid-template-columns: repeat(10, 1fr);
-    border: 1px solid red;
-}
-
-.activePlayer > div {
-    border: 1px solid red;
 }

@@ -8,7 +8,7 @@ test('creating a board', () => {
 //Placing a ship on the board
 test('placing a ship', () => {
     const board = new Gameboard('Aidan');
-    expect(board.placeShip({ row: 3, column: 0, type: 'patrol'})).toEqual('ship placed');
+    expect(board.placeShip({ row: 3, column: 0, type: 'patrol', direction: 'horizontal' })).toEqual('ship placed');
 })
 
 //Can't overlap ships on the board
@@ -16,24 +16,24 @@ test('placing a ship', () => {
 test('overlapping ships', () => {
     const board = new Gameboard('Aidan');
     
-    expect(board.placeShip({ row: 1, column: 2, type: 'carrier' })).toEqual('ship placed');
-    expect(board.placeShip({ row: 1, column: 2, type: 'destroyer' })).toBe(null);
+    expect(board.placeShip({ row: 1, column: 2, type: 'carrier', direction: 'horizontal' })).toEqual('ship placed');
+    expect(board.placeShip({ row: 1, column: 2, type: 'destroyer', direction: 'horizontal' })).toBe('ship not placed');
 })
 
 //Placing multiple ships across different rows on the grid
 test('placing multiple ships', () => {
     const board = new Gameboard('Aidan');
 
-    expect(board.placeShip({ row: 0, column: 0, type: 'carrier' })).toEqual('ship placed');
-    expect(board.placeShip({ row: 1, column: 0, type: 'submarine' })).toEqual('ship placed');
-    expect(board.placeShip({ row: 2, column: 0, type: 'patrol' })).toEqual('ship placed');
+    expect(board.placeShip({ row: 0, column: 0, type: 'carrier', direction: 'horizontal' })).toEqual('ship placed');
+    expect(board.placeShip({ row: 1, column: 0, type: 'submarine', direction: 'horizontal' })).toEqual('ship placed');
+    expect(board.placeShip({ row: 2, column: 0, type: 'patrol', direction: 'vertical' })).toEqual('ship placed');
 })
 
 //Receiving an attack that hits a ship will return 'hit'
 test('receive an attack on the board that hits', () => {
     const board = new Gameboard('Aidan');
 
-    board.placeShip({ row: 0, column: 0, type: 'carrier' });
+    board.placeShip({ row: 0, column: 0, type: 'carrier', direction: 'horizontal' });
 
     expect(board.receiveAttack({ row: 0, column: 1 })).toEqual('hit');
 })
@@ -42,7 +42,7 @@ test('receive an attack on the board that hits', () => {
 test('receive an attack on the board that misses', () => {
     const board = new Gameboard('Aidan');
 
-    board.placeShip({ row: 0, column: 0, type: 'carrier' });
+    board.placeShip({ row: 0, column: 0, type: 'carrier', direction: 'horizontal' });
 
     expect(board.receiveAttack({ row: 6, column: 4 })).toEqual('miss');
 })
@@ -51,11 +51,11 @@ test('receive an attack on the board that misses', () => {
 test('all ships sunk', () => {
     const board = new Gameboard('Aidan');
 
-    board.placeShip({ row: 0, column: 0, type: 'carrier'});
-    board.placeShip({ row: 1, column: 0, type: 'battleship'});
-    board.placeShip({ row: 2, column: 0, type: 'destroyer'});
-    board.placeShip({ row: 3, column: 0, type: 'submarine'});
-    board.placeShip({ row: 4, column: 0, type: 'patrol'});
+    board.placeShip({ row: 0, column: 0, type: 'carrier', direction: 'horizontal'});
+    board.placeShip({ row: 1, column: 0, type: 'battleship', direction: 'horizontal'});
+    board.placeShip({ row: 2, column: 0, type: 'destroyer', direction: 'horizontal'});
+    board.placeShip({ row: 3, column: 0, type: 'submarine', direction: 'horizontal'});
+    board.placeShip({ row: 4, column: 0, type: 'patrol', direction: 'horizontal'});
 
     board.receiveAttack({ row: 0, column: 0 });
     board.receiveAttack({ row: 0, column: 1 });
@@ -80,4 +80,16 @@ test('all ships sunk', () => {
     board.receiveAttack({ row: 4, column: 1 });
 
     expect(board.allSunk()).toBeTruthy();
+})
+
+test('place ships randomly', () => {
+    const board = new Gameboard('Aidan');
+
+    expect(board.placeShipRandom({ type: 'carrier', direction: 'vertical' })).toEqual('ship placed');
+    expect(board.placeShipRandom({ type: 'battleship', direction: 'horizontal' })).toEqual('ship placed');
+    expect(board.placeShipRandom({ type: 'destroyer', direction: 'horizontal' })).toEqual('ship placed');
+    expect(board.placeShipRandom({ type: 'submarine', direction: 'horizontal' })).toEqual('ship placed');
+    expect(board.placeShipRandom({ type: 'patrol', direction: 'horizontal' })).toEqual('ship placed');
+
+    console.log(board.grid);
 })
