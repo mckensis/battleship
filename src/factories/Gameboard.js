@@ -113,7 +113,6 @@ class Gameboard {
         //Ensures the ship won't overflow the grid
         if (direction === 'horizontal') {
             while((boat.length + column) > 10) {
-                console.log(column);
                 column = this.chooseRandomCoordinates();
             }
         }

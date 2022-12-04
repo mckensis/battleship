@@ -3,7 +3,6 @@
     src: url('./assets/fonts/far.woff2') format('woff2'),
          url('assets/fonts/far.woff') format('woff');
 }
-
 :root {
     --gradient: linear-gradient(to top, #ffd194, #70e1f5);
     --dark: #0C090D;
@@ -23,8 +22,9 @@ html {
 }
 body {
     display: grid;
-    grid-template-rows: max-content;
+    grid-auto-rows: max-content;
     font-family: sans-serif;
+    height: 100vh;
 }
 h1 {
     font-family: "Stencil";
@@ -34,14 +34,117 @@ h1 {
     text-align: center;
 }
 
+.formContainer {
+    display: grid;
+    grid-auto-flow: row;
+    place-items: center;
+    grid-auto-rows: max-content;
+}
+
+form {
+    display: grid;
+    grid-template-rows: 1fr max-content max-content 1fr max-content;
+    gap: 1rem;
+    width: 100%;
+    max-width: 40rem;
+}
+
+form .playerName {
+    place-self: center;
+    font-size: 1.5rem;
+    display: grid;
+    font-weight: bold;
+    grid-auto-flow: row;
+    text-align: center;
+}
+
+.playerName input {
+    margin-top: 0.5rem;
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+}
+
+.formDiv {
+    display: grid;
+    grid-template-columns: 1fr repeat(3, max-content) 1fr;
+    grid-auto-rows: max-content;
+    background-color: var(--darkpurple);
+    padding: 0rem 0.5rem;
+    column-gap: 1rem;
+}
+
+.formDiv p {
+    color: var(--babypowder);
+    font-weight: bold;
+    padding: 1rem 0rem;
+}
+
+.formDiv :nth-child(5) {
+    text-align: center;
+}
+
+h2,
+.formInputs input {
+    text-align: center;
+}
+
+.formInputs {
+    display: grid;
+    grid-auto-flow: row;
+}
+
+.formInputs {
+    grid-column: 1 / -1;
+}
+
+.formInputs label {
+    display: grid;
+    font-size: 1.3rem;
+    color: var(--babypowder);
+    font-style: italic;
+    grid-template-columns: 1fr repeat(3, 2rem) 1fr;
+    grid-template-rows: max-content;
+    padding-bottom: 0.5rem;
+    gap: 1rem;
+}
+
+.formInputs select {
+    text-align: center;
+}
+
+.formInputs input {
+    font-size: 1.3rem;
+}
+
+form button {
+    display: grid;
+    margin: auto;
+    width: 25rem;
+    max-width: 80%;
+    padding: 1rem;
+    color: var(--babypowder);
+    background-color: var(--darkpurple);
+    font-size: 1.5rem;
+    font-weight: bold;
+    box-shadow: 0 0 0.25rem var(--dark);
+    border-radius: 1rem;
+}
+.shipPlacementDisplay {
+    margin: 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+    background-color: rgb(209, 73, 91, 0.5);
+    border: 2px dashed var(--brickred);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
 /* Styles for all boards */
 .boardContainer {
     display: grid;
-    width: 100%;
-    height: 100%;
     padding: 1rem;
-    place-self: center;
-    align-self: stretch;
+    width: 100%;
     grid-template-rows: max-content 1fr;
     grid-template-columns: max-content 1fr;
 }
@@ -67,7 +170,6 @@ h1 {
     grid-column: 2;
     grid-template-rows: repeat(10, 1fr);
     grid-template-columns: repeat(10, 1fr);
-    background-color: #fff;
     border: 1px solid var(--dark);
 }
 .board > div {
@@ -82,106 +184,22 @@ h1 {
     font-size: 1.3rem;
 }
 
-.formContainer {
-    display: grid;
-    grid-auto-flow: row;
-    place-items: center;
-    grid-auto-rows: max-content;
-}
-
-.playersForm {
-    display: grid;
-    place-items: stretch;
-    grid-template-rows: max-content max-content 1fr max-content;
-    gap: 1rem;
-}
-
-.playersForm .name {
-    place-self: center;
-    font-size: 1.5rem;
-    display: grid;
-    font-weight: bold;
-    grid-auto-flow: row;
-    text-align: center;
-}
-
-.playersForm .name input {
-    margin-top: 0.5rem;
-    font-size: 1.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
-}
-
-.formInputs {
-    display: grid;
-    grid-auto-flow: row;
-}
-
-.formInputs input {
-    text-align: center;
-}
- 
-form h2 {
-    text-align: center;
-}
-
-.formHeadings {
-    display: grid;
-    grid-template-columns: 1fr repeat(4, max-content);
-    grid-auto-flow: column;
-    background-color: var(--darkpurple);
-    gap: 1rem;
-    padding: 0rem 1rem;
-}
-
-.formHeadings p {
-    color: var(--babypowder);
-    font-weight: bold;
-    padding: 1rem 0rem;
-}
-
-.formHeadings :nth-child(3),
-.formHeadings :nth-child(4) {
-    text-align: right;
-}
-
-.formInputs label {
-    display: grid;
-    grid-template-columns: 1fr 1rem repeat(2, 3rem) 6rem;
-    font-size: 1.4rem;
-    gap: 1rem;
-    padding-bottom: 0.5rem;
-}
-
-.formInputs input {
-    font-size: 1.4rem;
-}
-
-form button {
-    display: grid;
-    margin: auto;
-    width: 25rem;
-    max-width: 80%;
-    padding: 1rem;
-    color: var(--babypowder);
-    background-color: var(--darkpurple);
-    font-size: 1.5rem;
-    font-weight: bold;
-    box-shadow: 0 0 0.25rem var(--dark);
-    border-radius: 1rem;
-}
-
-.shipPlacementDisplay {
-    margin: 1rem;
-    font-size: 1.5rem;
-    text-align: center;
-    background-color: rgb(209, 73, 91, 0.5);
-    border: 2px dashed var(--brickred);
-    border-radius: 1rem;
-    padding: 1rem;
-}
-
 /* Enemy board section contains numbers and board */
 .gameplay {
     display: none;
+    grid-template-rows: 0.5fr 0.5fr;
+    gap: 0.5rem;
+    margin: 0.5rem;
+}
+
+.playerSection,
+.enemySection {
+    display: grid;
+    grid-template-rows: max-content 1fr;
+    place-items: center;
+}
+
+.playerSection.active,
+.enemySection.active {
+    border: 1px solid red;
 }

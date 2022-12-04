@@ -19,7 +19,6 @@ function setEnemy() {
         enemy.board.placeShipRandom({ type });
     }
 
-    console.log(enemy.board);
     return enemy;
 }
 
@@ -55,16 +54,16 @@ function playerForm() {
             let length = Number(row.previousElementSibling.textContent);
             
             if (select.value === 'vertical') {
-                column.max = '10';
                 row.max = (10 - length) + 1;
+                column.max = '10';
                 if (!row.value <= row.max) {
-                    row.value = row.max;
+                    row.value = 1;
                 }
             } else {
-                column.max = (10 - length) + 1;
                 row.max = '10';
-                if (!column.value <= column.max) {
-                    column.value = column.max;
+                column.max = (10 - length) + 1;
+                if (!column.value >= column.max) {
+                    column.value = 1;
                 }
             }
         })
