@@ -135,7 +135,6 @@ class Gameboard {
     receiveAttack(coordinates) {
         let row = coordinates.row;
         let column = coordinates.column;
-
         if (!this.grid[row][column]) {
             this.shots[row][column] = "miss";
             return 'miss';

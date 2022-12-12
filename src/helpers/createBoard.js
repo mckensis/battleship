@@ -1,3 +1,5 @@
+import chooseCell from './chooseCell.js';
+
 //Creates the board for the player
 //If the cell has a boat in it, then colours the cell in
 //TO DO: if it's creating the enemy's board then use the "shots" board rather than "grid"
@@ -12,7 +14,7 @@ function createBoard(player) {
 
             //If the cell in the player's board has a boat in it then style the cell accordingly
             if (player.board.grid[rows][columns]) {
-                div.style.backgroundColor = 'var(--darkpurple)';
+                div.classList.add('occupied');
             }
             element.appendChild(div);
         }

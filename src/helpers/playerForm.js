@@ -2,6 +2,7 @@ import Player from '../factories/Player';
 import shipPlacement from './shipPlacement';
 import setEnemy from './setEnemy';
 import { startGame } from '../index';
+import displayError from './errorHandling';
 import { removeForm, addMainDisplay } from './updateElements'; 
 
 //Takes the ship coordinates form and formats it
