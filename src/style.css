@@ -19,12 +19,14 @@
 html {
     background: var(--gradient);
     background-attachment: fixed;
+    height: 100vh;
+    overflow: hidden;
 }
 body {
     display: grid;
     grid-auto-rows: max-content;
     font-family: sans-serif;
-    height: 100vh;
+    width: 100vw;
 }
 h1 {
     font-family: "Stencil";
@@ -35,77 +37,72 @@ h1 {
     font-weight: 100;
 }
 
-/* The entire form section */
-.formContainer {
+form {
     display: grid;
-    grid-auto-flow: row;
-    place-items: center;
-    grid-auto-rows: max-content;
+    width: 100vw;
 }
 
 .formDiv {
     display: grid;
-    grid-auto-rows: max-content;
 }
-form {
-    display: grid;
-    grid-auto-rows: max-content;
-    gap: 1rem;
-    max-width: 40rem;
-}
+
 form .playerName {
     place-self: center;
     font-size: 1.5rem;
-    display: grid;
     font-weight: bold;
     grid-auto-flow: row;
     text-align: center;
+    margin-bottom: 1rem;
 }
 
 .playerName input {
     margin-top: 0.5rem;
     font-size: 1.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem;
     border-radius: 1rem;
     text-align: center;
 }
 
 fieldset {
-    padding: 1rem 0;
-    border-radius: 1rem;
-    margin-bottom: 1rem;
     display: grid;
-    grid-template-columns: max-content;
-    grid-auto-columns: max-content;
+    justify-self: center;
+    max-width: 30rem;
+    padding: 0.75rem 2rem;
+    grid-template-columns: repeat(2, max-content) max-content;
     grid-auto-flow: column;
-    border: 2px solid var(--darkpurple);
-    margin: 1rem 0.5rem 0rem 0.5rem;
-    background-color: rgba(255,255,255,0.3);
-    box-shadow: 0rem 0.1rem 0.3rem var(--dark);
+    gap: 1rem;
+    margin: 0rem 1rem 1rem 1rem;
     font-size: 1.1rem;
+    background-color: rgba(255,255,255,0.3);
+    border: 2px solid var(--darkpurple);
+    border-radius: 1rem;
+    box-shadow: 0rem 0.1rem 0.3rem var(--dark);
 }
+
 fieldset legend {
     padding: 0 0.5rem;
     color: black;
     font-family: 'Stencil';
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     letter-spacing: 0.25rem;
     font-weight: 100;
 }
+
 fieldset label {
     display: grid;
-    grid-auto-flow: column;
-    padding: 0.5rem;
     gap: 0.5rem;
+    grid-auto-flow: column;
     place-items: center;
 }
-fieldset input,
-fieldset select {
+
+fieldset input {
     padding: 0.25rem 0;
+    min-width: 2.5rem;
     font-size: 1.2rem;
     text-align: center;
     border-radius: 0.5rem;
 }
+
 fieldset input:hover,
 fieldset select:hover,
 form button:hover {
@@ -114,8 +111,7 @@ form button:hover {
 
 form button {
     display: grid;
-    margin: auto;
-    margin-top: 1rem;
+    justify-self: center;
     width: 25rem;
     max-width: 80%;
     padding: 1rem;
@@ -156,8 +152,8 @@ form button {
     background-color: var(--darkpurple);
     color: var(--babypowder);
     padding: 1rem;
-    width: 50%;
-    max-width: 20rem;
+    width: 80%;
+    max-width: 30rem;
     text-align: center;
     border-radius: 2rem;
 }
@@ -187,7 +183,8 @@ form button {
 .verticalNumbers {
     display: grid;
     grid-auto-flow: row;
-    grid-template-rows: repeat(10, 2rem);
+    grid-template-rows: repeat(10, 1.5rem);
+    font-size: 1rem;
     place-items: center;
     grid-column: 1;
 }
@@ -195,16 +192,17 @@ form button {
     display: grid;
     grid-column: 2;
     grid-auto-flow: column;
-    grid-template-columns: repeat(10, 2rem);
+    grid-template-columns: repeat(10, 1.5rem);
+    font-size: 1rem;
     place-items: center;
 }
 .player .verticalNumbers {
-    grid-template-rows: repeat(10, 1.5rem);
-    font-size: 1rem;
+    grid-template-rows: repeat(10, 1rem);
+    font-size: 0.8rem;
 }
 .player .horizontalNumbers {
-    grid-template-columns: repeat(10, 1.5rem);
-    font-size: 1rem;
+    grid-template-columns: repeat(10, 1rem);
+    font-size: 0.8rem;
 }
 .board {
     display: grid;
@@ -213,7 +211,6 @@ form button {
     grid-template-rows: repeat(10, 1fr);
     grid-template-columns: repeat(10, 1fr);
 }
-
 .board > div {
     aspect-ratio: 1;
     border: 1px solid var(--dark);
@@ -232,5 +229,48 @@ form button {
 }
 
 .miss {
-    background-color: blue;
+    background: rgb(33,124,241);
+    background: radial-gradient(circle, rgba(33,124,241,1) 5%, rgba(208,247,255,1) 100%);
+}
+
+@media (min-width: 760px) {
+    .gameplay {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-flow: column;
+        gap: 2rem;
+    }
+
+    .enemySection {
+        grid-column: 1;
+        grid-row: 2 / -1;
+    }
+
+    .playerSection {
+        grid-column: 2;
+        grid-row: 2 / -1;
+    }
+
+    .verticalNumbers,
+    .player .verticalNumbers {
+        grid-template-rows: repeat(10, 2rem);
+        font-size: 1.3rem;
+    }
+    .horizontalNumbers,
+    .player .horizontalNumbers {
+        grid-template-columns: repeat(10, 2rem);
+        font-size: 1.3rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .verticalNumbers,
+    .player .verticalNumbers {
+        grid-template-rows: repeat(10, 4rem);
+        font-size: 1.3rem;
+    }
+    .horizontalNumbers,
+    .player .horizontalNumbers {
+        grid-template-columns: repeat(10, 4rem);
+        font-size: 1.3rem;
+    }
 }

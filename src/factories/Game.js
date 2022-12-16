@@ -10,13 +10,13 @@ class Game {
         this.parents = Array.from(document.querySelectorAll('.boardContainer'));
         this.parents[1].classList.add('inactive');
         this.announcements = document.querySelector('.announcements');
+        this.audio = new Audio();
         this.displayBoards(this.players);
         this.playRound();
     }
 
     #announce(player, type) {
-        let audio = new Audio();
-        audio.volume = 0.1;
+        this.audio.volume = 0.1;
 
         switch (type) {
             case 'turn':
@@ -30,14 +30,14 @@ class Game {
                 this.announcements.textContent = `${player.name} missed!`;
                 break;
             case 'hit':
+                this.audio.src = hit;
+                this.audio.play();
                 this.announcements.textContent = `${player.name} hit a ship!`;
-                audio.src = hit;
-                audio.play();
                 break;
             case 'gameover':
                 this.announcements.textContent = `${player.name} wins!`;       
-                audio.src = gameover;
-                audio.play();
+                this.audio.src = gameover;
+                this.audio.play();
         }
     }
 
