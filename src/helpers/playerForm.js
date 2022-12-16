@@ -55,9 +55,6 @@ function playerForm() {
     const input = document.querySelector('input[name="playerName"]');
     input.focus();
 
-    //for quick testing
-    input.value = 'Aidan';
-
     const selects = Array.from(document.querySelectorAll('select'));
     selects.forEach(select => {
         select.addEventListener('change', () => {
