@@ -22,6 +22,10 @@ module.exports = {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
       },
+      {
+        test: /\.(ogg|mp3|wav|mpe?g)$/i,
+        type: 'asset/resource',
+      },
     ],
   },
 };

@@ -8,10 +8,10 @@ class Gameboard {
         this.grid = createGrid();
         //Gameboards should keep track of missed attacks so they can display them properly.
         this.shots = createGrid();
-        this.ships = this.#createBoats();
+        this.ships = this.#createShips();
     };
 
-    //Checks that there isn't already a boat on the chosen coordinates
+    //Checks that there isn't already a ship on the chosen coordinates
     #checkOverlap(temp) {
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[i].length; j++) {
@@ -25,34 +25,34 @@ class Gameboard {
         return false;
     };
 
-    //Creates the five boats for the game
-    #createBoats() {
-        let boats = [];
+    //Creates the five ships for the game
+    #createShips() {
+        let ships = [];
         const carrier = new Ship(5, 'carrier');
         const battleship = new Ship(4, 'battleship');
         const destroyer = new Ship(3, 'destroyer');
         const submarine = new Ship(3, 'submarine');
         const patrol = new Ship(2, 'patrol');
-        boats.push(carrier, battleship, destroyer, submarine, patrol);
-        return boats;
+        ships.push(carrier, battleship, destroyer, submarine, patrol);
+        return ships;
     };
 
-    //Helper function to create an array that will contain every grid space that the passed in boat will cover
+    //Helper function to create an array that will contain every grid space that the passed in ship will cover
     #createAllCoordinates(data) {
         let temp = createGrid();
         let row = data.row;
         let column = data.column;
         //TO-DO: if orientation is vertical then increment row instead of column
-        for (let boatGridLength = 0; boatGridLength < data.boat.length; boatGridLength++) {
+        for (let shipGridLength = 0; shipGridLength < data.ship.length; shipGridLength++) {
             if (data.direction === 'vertical') {   
-                row = data.row + boatGridLength;
+                row = data.row + shipGridLength;
                 column = column;
             } else {
                 row = row;
-                column = data.column + boatGridLength;
+                column = data.column + shipGridLength;
             }
-            //Set the appropriate row & column to be the type of boat which will be placed there
-            let type = data.boat.type;
+            //Set the appropriate row & column to be the type of ship which will be placed there
+            let type = data.ship.type;
             temp[row][column] = type;
         }
         return temp;
@@ -73,14 +73,14 @@ class Gameboard {
     //Places the provided ship at the provided location 
     placeShip(data) {
         
-        const boat = this.ships.find(element => element.type === data.type);
-        if (boat.placed) {
-            return 'ship placed';
+        const ship = this.ships.find(element => element.type === data.type);
+        if (ship.placed) {
+            return 'ship already placed';
         }
-        let column = data.column;
         let row = data.row;
+        let column = data.column;
         let direction = data.direction;
-        let tempCoordinates = this.#createAllCoordinates({ boat, row, column, direction });
+        let tempCoordinates = this.#createAllCoordinates({ ship, row, column, direction });
 
         if (tempCoordinates) {
             //Check that the new ship's whole position won't overlap any current ships on the grid
@@ -89,7 +89,7 @@ class Gameboard {
             }
             //Place the new ship in the Gameboard's grid
             this.#copyTempIntoGrid(tempCoordinates);
-            boat.placed = true;
+            ship.placed = true;
             return 'ship placed';
         }
     };
@@ -103,7 +103,7 @@ class Gameboard {
     }
 
     placeShipRandom(data) {
-        const boat = this.ships.find(element => element.type === data.type);
+        const ship = this.ships.find(element => element.type === data.type);
         let type = data.type;
         let result = String;
         let direction = this.chooseRandomDirection();
@@ -112,12 +112,12 @@ class Gameboard {
 
         //Ensures the ship won't overflow the grid
         if (direction === 'horizontal') {
-            while((boat.length + column) > 10) {
+            while((ship.length + column) > 10) {
                 column = this.chooseRandomCoordinates();
             }
         }
         if (direction === 'vertical') {
-            while((boat.length + row) > 10) {
+            while((ship.length + row) > 10) {
                 row = this.chooseRandomCoordinates();
             }
         }

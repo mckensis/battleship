@@ -20,7 +20,7 @@ class Player {
         let column = Math.floor(Math.random() * 10);
 
         while (player.board.shots[row][column]) {
-            this.chooseRandomCoordinates(player);
+            return this.chooseRandomCoordinates(player);
         }
         return { row, column };
     }

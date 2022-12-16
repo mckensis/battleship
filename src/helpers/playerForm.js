@@ -1,61 +1,9 @@
 import Player from '../factories/Player';
-import shipPlacement from './shipPlacement';
 import setEnemy from './setEnemy';
 import { startGame } from '../index';
-import displayError from './errorHandling';
 import { removeForm, addMainDisplay } from './updateElements'; 
 
-//Takes the ship coordinates form and formats it
-//To prepare for placing the ships
-function formatFormData(form) {
-    let ships = {
-        carrier: {
-            type: 'carrier',
-            direction: '',
-            coords: [],
-        },
-        battleship: {
-            type: 'battleship',
-            direction: '',
-            coords: [],
-        },
-        destroyer: {
-            type: 'destroyer',
-            direction: '',
-            coords: [],
-        },
-        submarine: {
-            type: 'submarine',
-            direction: '',
-            coords: [],
-        },
-        patrol: {
-            type: 'patrol',
-            direction: '',
-            coords: [],
-        }
-    }
-    
-    //Minus 1 from the input value to format for zero-indexed arrays
-    form.querySelectorAll('input').forEach(input => {
-        if (!input) {
-            return;
-        }
-        if (input.dataset.type) {
-            ships[input.dataset.type]["coords"].push(input.value -1);
-        }
-    });
-
-    let values = [];
-    
-    form.querySelectorAll('select').forEach(select => {
-        ships[select.dataset.type]['direction'] = select.value;
-    })
-
-    return ships;
-}
-
-//Handles basic validity checking of player name inputs
+//Handles basic validity checking of form inputs
 function handleSubmit(e, form) {
     e.preventDefault();
     let status = form.checkValidity();
@@ -66,13 +14,49 @@ function handleSubmit(e, form) {
     return false;
 }
 
+//Removes the error if it exists
+function removeError() {
+    if (document.contains(document.querySelector('.shipPlacementDisplay'))) {
+        document.querySelector('.shipPlacementDisplay').remove();
+    }
+    return;
+}
+
+//Handles an error if a ship wasn't able to be placed where the user selected
+function displayError(result) {
+    removeError();
+    const section = document.querySelector('.formContainer')
+    const display = document.createElement('p');
+    display.classList.add('shipPlacementDisplay')
+    display.textContent = `Please check your ${result} coordinates. No coordinates have been set yet!`;
+    section.appendChild(display);
+}
+
+//Handles placing all ships into the player's board
+//Using data from the starting form
+function shipPlacement(player, ships) {
+    while (ships.length > 0) {
+        let type = ships.shift();
+        let row = ships.shift() -1;
+        let column = ships.shift() -1;
+        let direction = ships.shift();
+        player.board.placeShip({ type, row, column, direction });
+    }
+
+    for (const ship of player.board.ships) {
+        if (!ship.placed) return ship.type;
+    }
+    return 'All Ships Placed!';
+}
+
+//The form on the first page of the game
 function playerForm() {
     const form = document.querySelector('form');
     const input = document.querySelector('input[name="playerName"]');
     input.focus();
 
     //for quick testing
-    input.value = 'a';
+    input.value = 'Aidan';
 
     const selects = Array.from(document.querySelectorAll('select'));
     selects.forEach(select => {
@@ -108,18 +92,25 @@ function playerForm() {
             return;
         }
 
+        let inputs = [];
         let playerName; 
         //Set the player's name to the input value from the form
         for (const input of form) {
+            if (input.dataset.name) {
+                inputs.push(input.dataset.name);
+            }
             if (input.name === 'playerName') {
                 playerName = input.value;
+            } else {
+                if (input.value) {
+                    inputs.push(input.value);
+                }
             }
         }
 
         //Create a new player and turn the form coordinates into data valid for placing the  ships
         const player = new Player(playerName);
-        let ships = formatFormData(form);
-        let result = shipPlacement(player, ships);
+        let result = shipPlacement(player, inputs);
 
         //If any ship wasn't placed then let the user know and do not start the game
         if (result !== 'All Ships Placed!') {

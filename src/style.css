@@ -42,6 +42,7 @@ h1 {
     place-items: center;
     grid-auto-rows: max-content;
 }
+
 .formDiv {
     display: grid;
     grid-auto-rows: max-content;
@@ -171,8 +172,8 @@ form button {
     gap: 0.5rem;
 }
 
-.active {
-    border: 1px dashed var(--darkpurple);
+.inactive {
+    opacity: 0.5;
 }
 
 /* Styles for all boards */
@@ -230,6 +231,6 @@ form button {
     background-size: contain;
 }
 
-.missed {
+.miss {
     background-color: blue;
 }
