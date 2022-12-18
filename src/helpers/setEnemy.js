@@ -7,8 +7,7 @@ function setEnemy() {
     enemy.cpu = true;
 
     for (const ship of enemy.board.ships) {
-        let type = ship.type;
-        enemy.board.placeShipRandom({ type });
+        enemy.board.placeShipRandom({ type: ship.type });
     }
 
     return enemy;

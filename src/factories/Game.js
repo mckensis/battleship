@@ -1,6 +1,7 @@
 import sleep from '../helpers/sleep';
 import hit from '../assets/sounds/hit.wav';
 import gameover from '../assets/sounds/gameover.wav';
+import sunk from '../assets/sounds/sunk.wav';
 
 class Game {
     constructor(player, enemy) {
@@ -10,13 +11,18 @@ class Game {
         this.parents = Array.from(document.querySelectorAll('.boardContainer'));
         this.parents[1].classList.add('inactive');
         this.announcements = document.querySelector('.announcements');
+        this.muteBtn = document.querySelector('.muteButton');
         this.audio = new Audio();
-        this.displayBoards(this.players);
         this.playRound();
     }
 
     #announce(player, type) {
-        this.audio.volume = 0.1;
+
+        if (this.muteBtn.textContent === 'Mute') {
+            this.audio.volume = 0.1;
+        } else {
+            this.audio.volume = 0;
+        }
 
         switch (type) {
             case 'turn':
@@ -34,10 +40,16 @@ class Game {
                 this.audio.play();
                 this.announcements.textContent = `${player.name} hit a ship!`;
                 break;
+            case 'sunk':
+                this.audio.src = sunk;
+                this.audio.play();
+                this.announcements.textContent = `${[player.name]} sunk a ship!`;
+                break;
             case 'gameover':
                 this.announcements.textContent = `${player.name} wins!`;       
                 this.audio.src = gameover;
                 this.audio.play();
+                break;
         }
     }
 
@@ -54,6 +66,11 @@ class Game {
                                 column: Number(cell.classList[1].slice(1)),
                             }
                             let result = this.currentPlayer.attackEnemy(this.currentEnemy, coordinates);
+
+                            //If this cell has already been attacked then do not end the player's turn
+                            if (result === 'already chosen') {
+                                return;
+                            }
                             this.#announce(this.currentPlayer, result);
                             this.displayBoards(this.players);
                             this.endTurn();
@@ -135,7 +152,7 @@ class Game {
     }
 
     async endTurn() {
-        await sleep(500);
+        await sleep(1000);
         //Call game over if current enemy's ships have all been sunk
         if (this.currentEnemy.board.allSunk()) {
             this.#displayGameOver();
@@ -154,6 +171,7 @@ class Game {
     }
     
     async playRound() {
+        this.displayBoards(this.players);
         this.#announce(this.currentPlayer, 'turn');
         if (!this.currentPlayer.cpu) {
             this.#bindClick(this.parents);

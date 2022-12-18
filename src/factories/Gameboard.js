@@ -1,5 +1,5 @@
-import createGrid from "./createGrid";
-import Ship from "./Ship";
+import createGrid from './createGrid';
+import Ship from './Ship';
 
 class Gameboard {
 
@@ -135,15 +135,21 @@ class Gameboard {
     receiveAttack(coordinates) {
         let row = coordinates.row;
         let column = coordinates.column;
+        if (this.shots[row][column]) {
+            return 'already chosen';
+        }
         if (!this.grid[row][column]) {
-            this.shots[row][column] = "miss";
+            this.shots[row][column] = 'miss';
             return 'miss';
         } else {
             let attack = this.grid[row][column];
             for (const ship of this.ships) {
                 if (ship.type === attack) {
                     ship.hit();
-                    this.shots[row][column] = "hit";
+                    this.shots[row][column] = 'hit';
+                    if (ship.isSunk()) {
+                        return 'sunk';
+                    }
                     return 'hit';
                 }
             }

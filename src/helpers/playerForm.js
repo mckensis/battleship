@@ -25,10 +25,15 @@ function removeError() {
 //Handles an error if a ship wasn't able to be placed where the user selected
 function displayError(result) {
     removeError();
-    const section = document.querySelector('.formContainer')
+    const section = document.querySelector('.formContainer');
+    
+    const span = document.createElement('span');
+    span.classList.add('shipPlacementSpan');
+    span.textContent = result;
+
     const display = document.createElement('p');
     display.classList.add('shipPlacementDisplay')
-    display.textContent = `Please check your ${result} coordinates. No coordinates have been set yet!`;
+    display.innerHTML = `Please check your <span class="shipPlacementSpan">${result}</span> coordinates. No coordinates have been set yet!`;
     section.appendChild(display);
 }
 
@@ -58,9 +63,9 @@ function playerForm() {
     const selects = Array.from(document.querySelectorAll('select'));
     selects.forEach(select => {
         select.addEventListener('change', () => {
-            let column = select.previousElementSibling;
-            let row = column.previousElementSibling;
-            let length = Number(row.previousElementSibling.textContent);
+            let row = select.parentElement.parentElement.children[1].childNodes[1];            
+            let column = select.parentElement.parentElement.children[2].childNodes[1];
+            let length = Number(select.parentElement.parentElement.dataset.length);
             
             //If the ship direction changes
             //Check the current values for the coordinates
