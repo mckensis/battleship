@@ -1,15 +1,23 @@
-import createGrid from './createGrid';
 import Ship from './Ship';
 
+//Each player has their own gameboard
+//Holds the player's grid as well as any shots they have received
+//Holds the player's ships
 class Gameboard {
-
     constructor(player) {
         this.player = player;
-        this.grid = createGrid();
-        //Gameboards should keep track of missed attacks so they can display them properly.
-        this.shots = createGrid();
+        //The grid will hold all placed ship coordinates
+        this.grid = this.#createGrid();
+        //Shots will contain any hits and misses from received attacks
+        this.shots = this.#createGrid();
+        //Contains the ship objects
         this.ships = this.#createShips();
     };
+
+    //Returns a 2-dimensional 10x10 array which will be used for the player's grid / shots / temp arrays
+    #createGrid() {
+        return [...Array(10)].map(e => Array(10));
+    }
 
     //Checks that there isn't already a ship on the chosen coordinates
     #checkOverlap(temp) {
@@ -37,9 +45,9 @@ class Gameboard {
         return ships;
     };
 
-    //Helper function to create an array that will contain every grid space that the passed in ship will cover
+    //Creates a temp array that will decide which cells a ship will occupy
     #createAllCoordinates(data) {
-        let temp = createGrid();
+        let temp = this.#createGrid();
         let row = data.row;
         let column = data.column;
         //TO-DO: if orientation is vertical then increment row instead of column
@@ -58,7 +66,7 @@ class Gameboard {
         return temp;
     };
 
-    //Helper function to copy the temp array into the Gameboard's grid
+    //Copies the temp array from #createAllCoordinates into the gameboard's grid
     #copyTempIntoGrid(tempCoordinates) {
         for (let i = 0; i < this.grid.length; i++) {
             for (let j = 0; j < this.grid[i].length; j++) {
@@ -70,9 +78,9 @@ class Gameboard {
         return this.grid;
     };
 
-    //Places the provided ship at the provided location 
+    //Places a ship into the grid
+    //After checking for overlaps 
     placeShip(data) {
-        
         const ship = this.ships.find(element => element.type === data.type);
         if (ship.placed) {
             return 'ship already placed';
@@ -94,14 +102,17 @@ class Gameboard {
         }
     };
 
+    //The AI player will use this to choose a direction when placing a ship
     #chooseRandomDirection() {
         return Math.random() >= 0.5 ? 'horizontal' : 'vertical';
     }
-
+    
+    //The AI player will use this to choose coordinates when placing a ship
     #chooseRandomCoordinates() {
         return Math.floor(Math.random() * 10);
     }
 
+    //Places ships randomly in the grid
     placeShipRandom(data) {
         const ship = this.ships.find(element => element.type === data.type);
         let type = data.type;
@@ -131,7 +142,8 @@ class Gameboard {
         return result;
     }
 
-    //Takes coordinates and determines if the attack is a 'hit' or a 'miss'
+    //Takes coordinates and determines if the attack is a hit or a miss
+    //Also lets the player know if they have sunk a ship
     receiveAttack(coordinates) {
         let row = coordinates.row;
         let column = coordinates.column;

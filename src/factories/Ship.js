@@ -1,7 +1,6 @@
 class Ship {
-    //Private variables
-    #sunk;
-    #hits;
+    #sunk = Boolean;
+    #hits = Number;
 
     constructor(length, type) {
         this.#hits = 0;
@@ -12,16 +11,14 @@ class Ship {
         this.length = length > 5 ? 5 : length < 2 ? 2 : length;
     }
 
-    //Private function
+    //Find out if the ship has sunk    
     #sink() {
-        //console.log("ship has sank!");
         return this.#sunk = true;
     }
 
     //Increases number of hits on the ship
     hit() {
         if (this.#sunk) {
-            //console.log('this ship has already sank');
             return;
         }
         if (this.#hits < this.length) {

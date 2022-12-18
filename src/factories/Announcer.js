@@ -2,6 +2,8 @@ import hit from '../assets/sounds/hit.wav';
 import gameover from '../assets/sounds/gameover.wav';
 import sunk from '../assets/sounds/sunk.wav';
 
+//Keeps the player up to date via the announcements display
+//Controls the message in the display and any audio playback
 class Announcer {
     constructor() {
         this.audio = new Audio();

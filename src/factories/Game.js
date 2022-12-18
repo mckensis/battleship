@@ -3,7 +3,7 @@ import Announcer from './Announcer';
 
 class Game {
     //Set the players up, and get their respective board containers
-    //Set the announcer up and start the first round
+    //Set the announcer up, display the starting boards, and start the first round
     constructor(player, enemy) {
         this.players = [ player, enemy ];
         this.currentPlayer = this.players[0];
@@ -69,7 +69,7 @@ class Game {
         this.endTurn();
     }
 
-    //Called after every turn 
+    //Called after every turn to display the most up to date board for each player
     displayBoards(players) {
         for (const player of players) {
             let parent;
@@ -79,29 +79,34 @@ class Game {
                 parent = document.querySelector('.boardContainer.enemy');
             }
 
-            //Empty the current board
+            //Empty the currently displayed board
             this.#clearBoard(parent);
             const element = document.createElement('div');
             element.classList.add('board');
         
+            //Populate the board with 100 empty cells,
+            //Which will be filled in accordingly below
             for (let rows = 0; rows < 10; rows++) {
                 for (let columns = 0; columns < 10; columns++) {
                     const div = document.createElement('div');
                     div.classList.add(`R${rows}`)
                     div.classList.add(`C${columns}`);
     
+                    //Human player's board
                     if (!player.cpu) {
-                        //If the cell in the player's board has a ship in it then style the cell accordingly
+                        //If the cell has a ship in it then style the cell accordingly
                         if (player.board.grid[rows][columns]) {
                             div.classList.add('occupied');
                         }
-                        //If the cell also has been attacked then display this too
+                        //If the cell has also been attacked then display this too
                         if (player.board.shots[rows][columns]) {
                             div.classList.add(player.board.shots[rows][columns]);
                         }
                     }
+
+                    //AI player's board
                     if (player.cpu) {
-                        //Display the 'shots' board for the enemy rather than their grid of ships, so that the player cannot see their ships
+                        //Display the 'shots' board so that the player cannot see their ship placements
                         if (player.board.shots[rows][columns]) {
                             div.classList.add(`${player.board.shots[rows][columns]}`)
                         }
@@ -113,12 +118,16 @@ class Game {
         }
     }
 
+    //Controls the opacity of each board depending on the active player
     toggleActiveBoard() {
         this.parents.forEach(parent => {
             parent.classList.toggle('inactive');
         })
     }
 
+    //Called after every turn,
+    //Changes the current player around,
+    //Checks for game over, and plays another round if it's not game over
     async endTurn(result) {
         this.announcer.announce(this.currentPlayer, result);
         this.displayBoards(this.players);
@@ -140,6 +149,7 @@ class Game {
         this.playRound();
     }
     
+    //Either allow the player to choose a cell to attack or let the ai player take their turn
     async playRound() {
         this.announcer.announce(this.currentPlayer, 'turn');
         if (!this.currentPlayer.cpu) {

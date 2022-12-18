@@ -45,6 +45,16 @@ form {
 .formDiv,
 .formContainer {
     display: grid;
+    place-content: center;
+}
+
+.randomShips {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 0.5rem;
+    place-self: center;
+    place-content: center;
+    margin-bottom: 1rem;
 }
 
 form .playerName {
