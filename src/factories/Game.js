@@ -13,17 +13,11 @@ class Game {
         this.announcements = document.querySelector('.announcements');
         this.muteBtn = document.querySelector('.muteButton');
         this.audio = new Audio();
+        this.audio.volume = 0.1;
         this.playRound();
     }
 
     #announce(player, type) {
-
-        if (this.muteBtn.textContent === 'Mute') {
-            this.audio.volume = 0.1;
-        } else {
-            this.audio.volume = 0;
-        }
-
         switch (type) {
             case 'turn':
                 if (player.cpu) {
@@ -97,6 +91,7 @@ class Game {
     #cpuTurn() {
         let coordinates = this.currentPlayer.chooseRandomCoordinates(this.currentEnemy);
         let result = this.currentPlayer.attackEnemy(this.currentEnemy, coordinates);
+        console.log(result, coordinates);
         this.#announce(this.currentPlayer, result);    
         this.displayBoards(this.players);
         this.endTurn();
