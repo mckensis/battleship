@@ -91,7 +91,6 @@ class Game {
     #cpuTurn() {
         let coordinates = this.currentPlayer.chooseRandomCoordinates(this.currentEnemy);
         let result = this.currentPlayer.attackEnemy(this.currentEnemy, coordinates);
-        console.log(result, coordinates);
         this.#announce(this.currentPlayer, result);    
         this.displayBoards(this.players);
         this.endTurn();
