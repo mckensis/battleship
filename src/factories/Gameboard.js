@@ -94,11 +94,11 @@ class Gameboard {
         }
     };
 
-    chooseRandomDirection() {
+    #chooseRandomDirection() {
         return Math.random() >= 0.5 ? 'horizontal' : 'vertical';
     }
 
-    chooseRandomCoordinates() {
+    #chooseRandomCoordinates() {
         return Math.floor(Math.random() * 10);
     }
 
@@ -106,19 +106,19 @@ class Gameboard {
         const ship = this.ships.find(element => element.type === data.type);
         let type = data.type;
         let result = String;
-        let direction = this.chooseRandomDirection();
-        let row = this.chooseRandomCoordinates();
-        let column = this.chooseRandomCoordinates();
+        let direction = this.#chooseRandomDirection();
+        let row = this.#chooseRandomCoordinates();
+        let column = this.#chooseRandomCoordinates();
 
         //Ensures the ship won't overflow the grid
         if (direction === 'horizontal') {
             while((ship.length + column) > 10) {
-                column = this.chooseRandomCoordinates();
+                column = this.#chooseRandomCoordinates();
             }
         }
         if (direction === 'vertical') {
             while((ship.length + row) > 10) {
-                row = this.chooseRandomCoordinates();
+                row = this.#chooseRandomCoordinates();
             }
         }
 
