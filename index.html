@@ -14,78 +14,78 @@
                     <input type="text" placeholder="Player Name" name="playerName" pattern="[a-zA-Z0-9]+" maxlength="10" autocomplete="off" required>
                 </label>
                 <div class="formDiv">
-                    <fieldset>
+                    <fieldset data-length="5">
                         <legend>Carrier</legend>
                         <label for="carrierRow">Row
-                            <input type="number" data-name="carrier" data-type="carrier" id="carrierRow" min="1" max="10" value="1">
+                            <input type="number" id="carrierRow" data-name="carrier" min="1" max="6" value="3">
                         </label>
                         <label for="carrierCol">Column
-                            <input type="number" data-type="carrier" id="carrierCol" min="1" max="6" value="1">
+                            <input type="number" id="carrierCol" min="1" max="10" value="6">
                         </label>
                         <label for="carrierDir">
-                            <select data-type="carrier">
-                                <option value="horizontal" data-direction="horizontal" selected>Horizontal</option>
-                                <option value="vertical" data-direction="vertical">Vertical</option>
+                            <select>
+                                <option value="horizontal">Horizontal</option>
+                                <option value="vertical" selected>Vertical</option>
                             </select>
                         </label>
                     </fieldset>
-                    <fieldset>
+                    <fieldset data-length="4">
                         <legend>Battleship</legend>
                         <label for="battleshipRow">Row
-                            <input type="number" data-name="battleship" data-type="battleship" id="battleshipRow" min="1" max="10" value="2">
+                            <input type="number" id="battleshipRow" data-name="battleship" min="1" max="10" value="8">
                         </label>
                         <label for="battleshipCol">Column
-                            <input type="number" data-type="battleship" id="battleshipCol" min="1" max="6" value="1">
+                            <input type="number" id="battleshipCol" min="1" max="7" value="1">
                         </label>
                         <label for="battleshipDir">
-                            <select data-type="battleship">
-                                <option value="horizontal" data-direction="horizontal" selected>Horizontal</option>
-                                <option value="vertical" data-direction="vertical">Vertical</option>
+                            <select>
+                                <option value="horizontal" selected>Horizontal</option>
+                                <option value="vertical">Vertical</option>
                             </select>
                         </label>
                     </fieldset>
-                    <fieldset>
+                    <fieldset data-length="3">
                         <legend>Destroyer</legend>
                         <label for="destroyerRow">Row
-                            <input type="number" data-name="destroyer" data-type="destroyer" id="destroyerRow" min="1" max="10" value="3">
+                            <input type="number" id="destroyerRow" data-name="destroyer" min="1" max="8" value="2">
                         </label>
                         <label for="destroyerCol">Column
-                            <input type="number" data-type="destroyer" id="destroyerCol" min="1" max="6" value="1">
+                            <input type="number" id="destroyerCol" min="1" max="10" value="9">
                         </label>
                         <label for="destroyerDir">
-                            <select data-type="destroyer">
-                                <option value="horizontal" data-direction="horizontal" value="horizontal" selected>Horizontal</option>
-                                <option value="vertical" data-direction="vertical" value="vertical">Vertical</option>
+                            <select>
+                                <option value="horizontal">Horizontal</option>
+                                <option value="vertical" selected>Vertical</option>
                             </select>
                         </label>
                     </fieldset>
-                    <fieldset>
+                    <fieldset data-length="3">
                         <legend>Submarine</legend>
                         <label for="submarineRow">Row
-                            <input type="number" data-name="submarine" data-type="submarine" id="submarineRow" min="1" max="10" value="4">
+                            <input type="number" id="submarineRow" data-name="submarine" min="1" max="10" value="9">
                         </label>
                         <label for="submarineCol">Column
-                            <input type="number" data-type="submarine" id="submarineCol" min="1" max="6" value="1">
+                            <input type="number" id="submarineCol" min="1" max="8" value="8">
                         </label>
                         <label for="submarineDir">
-                            <select data-type="submarine">
-                                <option value="horizontal" data-direction="horizontal" selected>Horizontal</option>
-                                <option value="vertical" data-direction="vertical">Vertical</option>
+                            <select>
+                                <option value="horizontal" selected>Horizontal</option>
+                                <option value="vertical">Vertical</option>
                             </select>
                         </label>
                     </fieldset>
-                    <fieldset>
+                    <fieldset data-length="2">
                         <legend>Patrol Boat</legend>
                         <label for="patrolRow">Row
-                            <input type="number" data-name="patrol" data-type="patrol" id="patrolRow" min="1" max="10" value="5">
+                            <input type="number" id="patrolRow" data-name="patrol" min="1" max="10" value="5">
                         </label>
                         <label for="patrolCol">Column
-                            <input type="number" data-type="patrol" id="patrolCol" min="1" max="6" value="1">
+                            <input type="number" id="patrolCol" min="1" max="9" value="2">
                         </label>
                         <label for="patrolDir">
-                            <select data-type="patrol">
-                                <option value="horizontal" data-direction="horizontal" selected>Horizontal</option>
-                                <option value="vertical" data-direction="vertical">Vertical</option>
+                            <select>
+                                <option value="horizontal" selected>Horizontal</option>
+                                <option value="vertical">Vertical</option>
                             </select>
                         </label>
                     </fieldset>
@@ -153,6 +153,9 @@
                     </div>
                 </div>
             </section>
+        </section>
+        <section class="volume">
+            <button class="muteButton">Mute</button>
         </section>
         <script src="./bundle.js"></script>
     </body>
