@@ -65,12 +65,6 @@ class Game {
         let coordinates = this.currentPlayer.chooseRandomCoordinates(this.currentEnemy);
         let result = this.currentPlayer.attackEnemy(this.currentEnemy, coordinates);
         this.announcer.announce(this.currentPlayer, result);
-
-        if (result === 'hit') {
-            this.currentPlayer.foundTarget(coordinates);
-        }
-        
-        console.log(this.currentPlayer.target);
         this.displayBoards(this.players);
         this.endTurn();
     }
@@ -137,7 +131,7 @@ class Game {
     async endTurn(result) {
         this.announcer.announce(this.currentPlayer, result);
         this.displayBoards(this.players);
-        //await sleep(1000);
+        await sleep(1000);
         //Call game over if current enemy's ships have all been sunk
         if (this.currentEnemy.board.allSunk()) {
             this.#displayGameOver();
@@ -161,7 +155,7 @@ class Game {
         if (!this.currentPlayer.cpu) {
             this.#bindClick(this.parents);
         } else {
-            //await sleep(500);
+            await sleep(500);
             this.#cpuTurn();
         }
     }
