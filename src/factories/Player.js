@@ -6,6 +6,12 @@ class Player {
         this.cpu = false;
         this.board = new Gameboard(this.name);
         this.moved = false;
+        this.previousTarget;
+        this.target;
+    }
+
+    foundTarget(coordinates) {
+        this.target = coordinates;
     }
 
     //Takes in a player to attack as well as the coordinates to attack
@@ -15,55 +21,139 @@ class Player {
 
     //The AI player uses this function to check nearby cells if they successfully hit a ship
     #checkNearbyCoordinates(board) {
-        let horizontal = true;
+        let MIN = 0;
+        let MAX = 9;
+        let direction = 'unsure';
 
-        for (let row = 0; row < 10; row++) {
-            for (let column = 0; column < 10; column++) {
-                
-                //If a ship was hit
-                if (board.shots[row][column] === 'hit') {
+        const row = this.target.row;
+        const column = this.target.column;
+        const type = board.grid[row][column];
+        let length;
 
-                    //If both nearby columns resulted in a miss
-                    //Or if either of the nearby rows have resulted in a hit
-                    //Then we know the ship is placed vertically
-                    if (board.shots[row][column + 1] === 'miss' && board.shots[row][column - 1] === 'miss') {
-                        horizontal = false;
-                    } else if (board.shots[row + 1][column] === 'hit' || board.shots[row - 1][column] === 'hit') {
-                        horizontal = false;
-                    } 
-                    
-                    //If both nearby rows resulted in a miss
-                    //Or if either of the nearby columns have resulted in a hit
-                    //Then we know the ship is placed horizontally
-                    if (board.shots[row + 1][column] === 'miss' && board.shots[row - 1][column] === 'miss') {
-                        horizontal = true;
-                    } else if (board.shots[row][column + 1] === 'hit' || board.shots[row][column - 1] === 'hit') {
-                        horizontal = true;
-                    }
-
-                    if (horizontal) {
-                        //Try the cell to the right
-                        if (!board.shots[row][column + 1] && (column + 1 < 10)) {
-                            return { row: row, column: column + 1 };
-                        }
-                        //Try the cell to the left
-                        if (!board.shots[row][column - 1] && (column - 1) >= 0) {
-                            return { row: row, column: column - 1 };
-                        }
-                    } else {    
-                        //Try the cell below
-                        if (!board.shots[row + 1][column] && (row + 1 < 10)) {
-                            return { row: row + 1, column: column };
-                        }
-                        //Try the cell above
-                        if (!board.shots[row - 1][column] && (row - 1) >= 0) {
-                            return { row: row - 1, column: column }; 
-                        }
-                    }
+        for (const ship of board.ships) {
+            if (ship.type === type) {
+                length = ship.length;
+                if (ship.isSunk()) {
+                    this.target = '';
+                    return false;
                 }
             }
         }
-        //If there are no nearby cells to attack, then just return false
+
+        console.log("checking cell", row, column);
+        console.log(length);
+
+        if (row < MAX && row > MIN) {
+            if (board.shots[row + 1][column] === 'hit') {
+                direction = 'vertical';
+            }
+            if (board.shots[row - 1][column] === 'hit') {
+                direction = 'vertical';
+            }
+        }
+        if (row === MAX) {
+            if (board.shots[row - 1][column] === 'hit') {
+                console.log("setting");
+                direction = 'vertical';
+            }
+        }
+        if (row === MIN) {
+            if (board.shots[row + 1][column] === 'hit') {
+                console.log("setting");
+                direction = 'vertical'
+            }
+        }
+
+        if (column < MAX && column > MIN) {
+            if (board.shots[row][column + 1] === 'hit') {
+                console.log("setting");
+                direction = 'horizontal';
+            }
+            if (board.shots[row][column - 1] === 'hit') {
+                console.log("setting");
+                direction = 'horizontal';
+            }
+        }
+        if (column === MAX) {
+            if (board.shots[row][column - 1] === 'hit') {
+                console.log("setting");
+                direction = 'horizontal';
+            }
+        }
+        if (column === MIN) {
+            if (board.shots[row][column + 1] === 'hit') {
+                console.log("setting");
+                direction = 'horizontal';
+            }
+        }
+
+        console.log(direction);
+        
+        if (direction === 'horizontal') {
+            //Check the cell to the left
+            if (column > MIN) {
+                if (!board.shots[row][column - 1]) {
+                    console.log("checking left");
+                    return { row, column: column - 1 };
+                }
+            }
+            //Check the cell to the right
+            if (column < MAX) {
+                if (!board.shots[row][column + 1]) {
+                    console.log("checking right");
+                    return { row, column: column + 1 };
+                }
+            }
+        }
+
+        if (direction === 'vertical') {
+            //Check the cell below
+            if (row < MAX) {
+                if (!board.shots[row + 1][column]) {
+                    console.log("checking below");
+                    return { row: row + 1, column };
+                }
+            }
+            //Check the cell above
+            if (row > MIN) {
+                if (!board.shots[row - 1][column]) {
+                    console.log("checking above");
+                    return { row: row - 1, column };
+                }
+            }   
+        }
+
+        if (direction === 'unsure') {
+            //Check the cell to the right
+            if (column < MAX) {
+                if (!board.shots[row][column + 1]) {
+                    console.log("checking right");
+                    return { row, column: column + 1 };
+                }
+            }
+            //Check the cell to the left
+            if (column > MIN) {
+                if (!board.shots[row][column - 1]) {
+                    console.log("checking left");
+                    return { row, column: column - 1 };
+                }
+            }
+            //Check the cell below
+            if (row < MAX) {
+                if (!board.shots[row + 1][column]) {
+                    console.log("checking below");
+                    return { row: row + 1, column };
+                }
+            }
+            //Check the cell above
+            if (row > MIN) {
+                if (!board.shots[row - 1][column]) {
+                    console.log("checking above");
+                    return { row: row - 1, column };
+                }
+            }
+        }
+
         return false;
     }
 
@@ -72,9 +162,13 @@ class Player {
     chooseRandomCoordinates(player) {
         let board = player.board;
 
-        //Check for any nearby coordinates to attack
-        if (this.#checkNearbyCoordinates(board)) {
-            return this.#checkNearbyCoordinates(board);
+        if (this.target) {
+            this.previousTarget = this.target;
+            let nearby = this.#checkNearbyCoordinates(board);
+
+            if (nearby) {
+                return { row: nearby.row, column: nearby.column };
+            }
         }
 
         let row = Math.floor(Math.random() * 10);
