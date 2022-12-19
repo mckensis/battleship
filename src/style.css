@@ -290,12 +290,12 @@ form button {
 @media (min-width: 1200px) {
     .verticalNumbers,
     .player .verticalNumbers {
-        grid-template-rows: repeat(10, 4rem);
+        grid-template-rows: repeat(10, 3rem);
         font-size: 1.3rem;
     }
     .horizontalNumbers,
     .player .horizontalNumbers {
-        grid-template-columns: repeat(10, 4rem);
+        grid-template-columns: repeat(10, 3rem);
         font-size: 1.3rem;
     }
 }
