@@ -12,116 +12,108 @@ class Player {
         return player.board.receiveAttack(coordinates);
     }
 
-    //AI player will try to guess what direction a ship is facing
-    decideDirection(board) {
+    //Decide direction to attack
+    chooseDirection(board) {
         const MIN = 0;
         const MAX = 9;
 
-        for (let row = MIN; row <= MAX; row++) {
-            for (let column = MIN; column <= MAX; column++) {
+        for (let row = 0; row < 10; row++) {
+            for (let column = 0; column < 10; column++) {
                 if (board.shots[row][column] === 'hit') {
-                    if (row > MIN && row < MAX) {
-                        if (board.shots[row - 1][column] === 'miss') {
-                            if (board.shots[row + 1][column] === 'miss') {
-                                return 'horizontal';
-                            }
+                    //Check nearby columns
+                    if (column < MAX && column > MIN) {
+                        if (board.shots[row][column + 1] === 'miss'
+                            && board.shots[row][column - 1] === 'miss') {
+                                return false;
                         }
-                        if (board.shots[row][column - 1] === 'hit') {
-                            return 'horizontal';
-                        }
-                        if (board.shots[row][column - 1] === 'hit') {
-                            return 'horizontal';
+                        if (board.shots[row][column + 1] === 'hit'
+                            || board.shots[row][column - 1] === 'hit') {
+                                return true;
                         }
                     }
-                    if (column > MIN && column < MAX) {
-                        if (board.shots[row][column - 1] === 'miss') {
-                            if (board.shots[row][column + 1] === 'miss') {
-                                return 'vertical';
-                            }
-                        }
-                        if (board.shots[row - 1][column] === 'hit') {
-                            return 'vertical';
-                        }
-                        if (board.shots[row + 1][column] === 'hit') {
-                            return 'vertical';
-                        }
-                    }
-                    if (column === MIN) {
-                        if (board.shots[row][column + 1] === 'miss') {
-                            return 'vertical';
-                        }
-                    }
+                    //Check nearby columns
                     if (column === MAX) {
                         if (board.shots[row][column - 1] === 'miss') {
-                            return 'vertical';
+                            return false;
+                        }
+                        if (board.shots[row][column - 1] === 'hit') {
+                            return true;
                         }
                     }
-                    if (row === MIN) {
-                        if (board.shots[row + 1][column] === 'miss') {
-                            return 'horizontal';
+                    
+                    //Check nearby columns
+                    if (column === MIN) {
+                        if (board.shots[row][column + 1] === 'miss') {
+                            return false;
+                        }
+                        if (board.shots[row][column + 1] === 'hit') {
+                            return true;
                         }
                     }
+                    
+                    //Check nearby rows
+                    if (row < MAX && row > MIN) {
+                        if (board.shots[row + 1][column] === 'miss'
+                        && board.shots[row - 1][column] === 'miss') {
+                            return true;
+                        }
+                        if (board.shots[row + 1][column] === 'hit'
+                        || board.shots[row - 1][column] === 'hit') {
+                            return false;
+                        }
+                    }
+
+                    //Check nearby rows
                     if (row === MAX) {
                         if (board.shots[row - 1][column] === 'miss') {
-                            return 'horizontal';
+                            return true;
+                        }
+                        if (board.shots[row - 1][column] === 'hit') {
+                            return false;
+                        }
+                    }
+
+                    //Check nearby rows
+                    if (row === MIN) {
+                        if (board.shots[row + 1][column] === 'miss') {
+                            return true;
+                        }
+                        if (board.shots[row + 1][column] === 'hit') {
+                            return false;
                         }
                     }
                 }
             }
         }
-        return 'unsure';
+        return;
     }
 
     checkNearbyGrid(board) {
         const MIN = 0;
         const MAX = 9;
-        let direction = this.decideDirection(board);
-
+        let horizontal = this.chooseDirection(board);
+        
         for (let row = MIN; row <= MAX; row++) {
             for (let column = MIN; column <= MAX; column++) {
                 if (board.shots[row][column] === 'hit') {
-                    if (direction === 'horizontal') {
-                        if (row < MAX || row === MIN) {
-                            if (!board.shots[row + 1][column]) {
-                                return { row: row + 1, column };
-                            }
+                    if (horizontal) {
+                        //If you haven't tried the cell to the right
+                        if (!board.shots[row][column + 1] && (column + 1 < MAX)) {
+                            return { row: row, column: column + 1 };
                         }
-                        if (row > MIN || row === MAX) {
-                            if (!board.shots[row - 1][column]) {
-                                return { row: row - 1, column };
-                            }
+                        //If you haven't tried the cell to the left
+                        if (!board.shots[row][column - 1] && (column - 1) > MIN) {
+                            return { row: row, column: column - 1 };
                         }
-                    } else if (direction === 'vertical') {
-                        if (column < MAX || column === MIN) {
-                            if (!board.shots[row][column + 1]) {
-                                return { row, column: column + 1 };
-                            }
+                    }
+                    if (!horizontal) {
+                        //If you havent tried the cell below
+                        if (!board.shots[row + 1][column] && (row + 1 < MAX)) {
+                            return { row: row + 1, column: column };
                         }
-                        if (column > MIN || column === MAX) {
-                            if (!board.shots[row][column - 1]) {
-                                return { row, column: column - 1 };
-                            }
-                        }
-                    } else {
-                        if (row < MAX || row === MIN) {
-                            if (!board.shots[row + 1][column]) {
-                                return { row: row + 1, column };
-                            }
-                        }
-                        if (row > MIN || row === MAX) {
-                            if (!board.shots[row - 1][column]) {
-                                return { row: row - 1, column };
-                            }
-                        }
-                        if (column < MAX || column === MIN) {
-                            if (!board.shots[row][column + 1]) {
-                                return { row, column: column + 1 };
-                            }
-                        }
-                        if (column > MIN || column === MAX) {
-                            if (!board.shots[row][column - 1]) {
-                                return { row, column: column - 1 };
-                            }
+                        //If you havent tried the cell above
+                        if (!board.shots[row - 1][column] && (row - 1) > MIN) {
+                            return { row: row - 1, column: column };
                         }
                     }
                 }
