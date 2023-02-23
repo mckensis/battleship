@@ -18,8 +18,8 @@
 
 ## Screenshots
 
-![Screenshot 1](./screenshots/battleship-01.jpg)
-![Screenshot 2](./screenshots/battleship-02.jpg)
+![Screenshot 1](./src/screenshots/battleship-01.jpg)
+![Screenshot 2](./src/screenshots/battleship-02.jpg)
 
 ## Future Improvements
 
