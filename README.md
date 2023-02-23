@@ -6,7 +6,7 @@
 
 - The Classic Battleship boardgame created in vanilla JS
 - Created to practice TDD / Test-Driven Development
-- I implemented a very basic AI player to play against 
+- I implemented a simple AI player to play against 
 
 ## How to Use
 
